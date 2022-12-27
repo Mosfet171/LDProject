@@ -4,14 +4,14 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
-#def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
-#  percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-#  filledLength = int(length * iteration // total)
-#  bar = fill * filledLength + '-' * (length - filledLength)
-#  print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
-#  # Print New Line on Complete
-#  if iteration == total:
-#    print()
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+  percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+  filledLength = int(length * iteration // total)
+  bar = fill * filledLength + '-' * (length - filledLength)
+  print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
+  # Print New Line on Complete
+  if iteration == total:
+    print()
 
 def do_I_replace(px, py, kx, ky, T, S):
   if px < py:
@@ -24,7 +24,7 @@ def do_I_replace(px, py, kx, ky, T, S):
       return True 
   return False
 
-@profile
+#@profile
 def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_matrix, multimode=False):
 
   T = payoff_matrix[0,1]
@@ -44,7 +44,7 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
 
   for i in range(n_generations + 1):
     if not multimode:
-      #printProgressBar(i, n_generations, prefix = 'Progress:', suffix = 'Complete', length = 50)
+      printProgressBar(i, n_generations, prefix = 'Progress:', suffix = 'Complete', length = 50)
       pass
 
     for j in range(N):
@@ -124,7 +124,7 @@ for S in Ss:
   i = 1
   for T in Ts:
     print("[NEWEVAL][Thread {}] Evaluating with new T ({}/{}) -- S: ({}/{})".format(tid,i,len(Ts),j,len(Ss)))
-    retval = exec_with_fixed_params(N, z, n_realizations, n_runs, n_generations, n_transient, S, T, multimode=True, tid=tid)
+    retval = exec_with_fixed_params(N, z, n_realizations, n_runs, n_generations, n_transient, S, T, multimode=False, tid=tid)
     results.write("{}, {}, {}\n".format(T,S,retval))
     i+=1
   j+=1

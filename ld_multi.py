@@ -4,14 +4,14 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
-#def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
-#  percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-#  filledLength = int(length * iteration // total)
-#  bar = fill * filledLength + '-' * (length - filledLength)
-#  print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
-#  # Print New Line on Complete
-#  if iteration == total:
-#    print()
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+  percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+  filledLength = int(length * iteration // total)
+  bar = fill * filledLength + '-' * (length - filledLength)
+  print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
+  # Print New Line on Complete
+  if iteration == total:
+    print()
 
 def do_I_replace(px, py, kx, ky, T, S):
   if px < py:
@@ -44,7 +44,7 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
 
   for i in range(n_generations + 1):
     if not multimode:
-      #printProgressBar(i, n_generations, prefix = 'Progress:', suffix = 'Complete', length = 50)
+      printProgressBar(i, n_generations, prefix = 'Progress:', suffix = 'Complete', length = 50)
       pass
 
     for j in range(N):
