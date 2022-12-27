@@ -19,7 +19,7 @@ def do_I_replace(px, py, kx, ky, T, S):
     kg = kx if kx > ky else ky
     maxT = T if T>1 else 1
     minS = S if S<0 else 0
-    Dg = T-S
+    Dg = maxT-minS
     prob = (py - px)/(kg*Dg)
     if np.random.rand() < prob:
       return True 
@@ -102,14 +102,16 @@ def exec_with_fixed_params(N, z, n_realizations, n_runs, n_generations, n_transi
     sums_real_av[realization] = np.mean(sums_av)
   return np.mean(sums_real_av)
 
+import threading
+
 def exec_for_thread(results):
   N = 1000 # Size of population
   z = 4 # Average connectivity
   granularity = 8
-  n_transient = 10
-  n_generations = 10
-  n_realizations = 2 # Number of realizations, where we change the graph 
-  n_runs = 2 # Number of runs for the same realization (same graph)
+  n_transient = 1000
+  n_generations = 1000
+  n_realizations = 1 # Number of realizations, where we change the graph 
+  n_runs = 1 # Number of runs for the same realization (same graph)
   
   tid = threading.current_thread().name
   tid_int = int(tid[1])

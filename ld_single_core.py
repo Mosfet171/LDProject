@@ -19,7 +19,7 @@ def do_I_replace(px, py, kx, ky, T, S):
     kg = kx if kx > ky else ky
     maxT = T if T>1 else 1
     minS = S if S<0 else 0
-    Dg = T-S
+    Dg = maxT-minS
     prob = (py - px)/(kg*Dg)
     if np.random.rand() < prob:
       return True 
