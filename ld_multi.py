@@ -30,6 +30,11 @@ def do_I_replace(px, py, kx, ky, T, S):
 
 #@profile
 def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_matrix, multimode=False):
+  T = payoff_matrix[0,1]
+  S = payoff_matrix[1,0]
+  R = payoff_matrix[1,1]
+  P = payoff_matrix[0,0]
+
   population = np.zeros(N,dtype=int)
   ones = np.random.permutation(N)[:N//2]
   for el in ones:
@@ -47,8 +52,10 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
 
     for j in range(N):
       payoffs[j] = 0
+      stratj = population[j]
       for l in graph_dict_array[j]:
-        payoffs[j] += payoff_matrix[population[j], population[l]]
+        strat[l] = population[l]
+        payoffs[j] += R if stratj+stratl == 1 else P if stratj+stratl == 0 else S if stratj == 1 else T 
 
     for k in range(N):
       neighbours = graph_dict_array[k]
@@ -100,7 +107,7 @@ def exec_with_fixed_params(N, z, n_realizations, n_runs, n_generations, n_transi
   return np.mean(sums_real_av)
 
 def exec_for_thread(results):
-  N = 10000 # Size of population
+  N = 1000 # Size of population
   z = 4 # Average connectivity
   granularity = 8
   n_transient = 10

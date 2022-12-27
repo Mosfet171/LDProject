@@ -44,8 +44,10 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
 
     for j in range(N):
       payoffs[j] = 0
+      stratj = population[j]
       for l in graph_dict_array[j]:
-        payoffs[j] += payoff_matrix[population[j], population[l]]
+        strat[l] = population[l]
+        payoffs[j] += R if stratj+stratl == 1 else P if stratj+stratl == 0 else S if stratj == 1 else T 
 
     for k in range(N):
       neighbours = graph_dict_array[k]
