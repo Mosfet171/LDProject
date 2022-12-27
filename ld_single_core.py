@@ -60,7 +60,7 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
       neighbours = graph_dict_array[k]
       random_neighbour_id = int(len(neighbours)*random.random())
       random_neighbour_strat = neighbours[random_neighbour_id]
-      px, py = payoffs[k], payoffs[random_neighbour_id]
+      px, py = payoffs[k], payoffs[random_neighbour_strat]
       kx, ky = len(neighbours), len(graph_dict_array[random_neighbour_strat])
 
       if do_I_replace(px,py,kx,ky,T,S):
