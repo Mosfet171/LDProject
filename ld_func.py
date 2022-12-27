@@ -14,19 +14,24 @@ import matplotlib.pyplot as plt
 #    print()
 
 def do_I_replace(px, py, kx, ky, T, S):
-  if px > py:
-    return False
-  else: 
-    kg = np.max((kx,ky))
-    Dg = np.max((T,1)) - np.min((S,0))
+  if px < py:
+    kg = kx if kx > ky else ky
+    maxT = T if T>1 else 1
+    minS = S if S<0 else 0
+    Dg = T-S
     prob = (py - px)/(kg*Dg)
     if np.random.rand() < prob:
       return True 
-    else:
-      return False
+  return False
 
-#@profile
+@profile
 def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_matrix, multimode=False):
+
+  T = payoff_matrix[0,1]
+  S = payoff_matrix[1,0]
+  R = payoff_matrix[1,1]
+  P = payoff_matrix[0,0]
+
   population = np.zeros(N,dtype=int)
   ones = np.random.permutation(N)[:N//2]
   for el in ones:
@@ -44,10 +49,8 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
 
     for j in range(N):
       payoffs[j] = 0
-      stratj = population[j]
       for l in graph_dict_array[j]:
-        strat[l] = population[l]
-        payoffs[j] += R if stratj+stratl == 1 else P if stratj+stratl == 0 else S if stratj == 1 else T 
+        payoffs[j] += payoff_matrix[population[j], population[l]]
 
     for k in range(N):
       neighbours = graph_dict_array[k]
@@ -55,9 +58,6 @@ def run_execution_on_graph(graph, graph_dict_array, N, n_generations, payoff_mat
       random_neighbour_strat = neighbours[random_neighbour_id]
       px, py = payoffs[k], payoffs[random_neighbour_id]
       kx, ky = len(neighbours), len(graph_dict_array[random_neighbour_strat])
-
-      T = payoff_matrix[0,1]
-      S = payoff_matrix[1,0]
 
       if do_I_replace(px,py,kx,ky,T,S):
         next_population[k] = population[random_neighbour_strat]
