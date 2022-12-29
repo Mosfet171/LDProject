@@ -103,13 +103,13 @@ def exec_with_fixed_params(N, z, n_realizations, n_runs, n_generations, n_transi
   return np.mean(sums_real_av)
 
 
-N = 100 # Size of population
+N = 1000 # Size of population
 z = 4 # Average connectivity
 granularity = 8
-n_transient = 100
-n_generations = 100
-n_realizations = 2 # Number of realizations, where we change the graph 
-n_runs = 2 # Number of runs for the same realization (same graph)
+n_transient = 1
+n_generations = 1000
+n_realizations = 1 # Number of realizations, where we change the graph 
+n_runs = 1 # Number of runs for the same realization (same graph)
 
 results = open("results_single.txt", "a")
 
