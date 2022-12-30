@@ -1,4 +1,5 @@
 multi:
+	python3 make_graph.py
 	g++ -O3 ld.cpp -o ld0
 	g++ -O3 ld1.cpp -o ld1
 	g++ -O3 ld2.cpp -o ld2

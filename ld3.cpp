@@ -39,6 +39,7 @@ int doIreplace(int px, int py, int kx, int ky, float T, float S) {
 
 float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[], int n_gen, float payoff_matrix[2][2], int transient) {
 	unsigned int seed = 0;
+	random_device rd;
 	int population[N];
 	int next_population[N];
 	int payoffs[N];
@@ -48,7 +49,7 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 		population[i] = i < N/2 ? 0 : 1;
 	}
 	for (int i = 0; i<5; i++) {
-		shuffle(population, population+N, std::default_random_engine(seed));
+		shuffle(population, population+N, std::default_random_engine(rd()));
 	}
 	for (int i = 0; i<N; i++) {
 		next_population[i] = population[i];
@@ -90,12 +91,15 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 			}
 		}// End population
 
-		if(transient == 0) { 
-			int sum = 0;
-			for (int k = 0; k<N; k++) {
-				population[k] = next_population[k];
+		
+		int sum = 0;
+		for (int k = 0; k<N; k++) {
+			population[k] = next_population[k];
+			if(transient == 0) { 
 				sum = sum + population[k];
 			}
+		}
+		if(transient == 0) { 
 			full_sums[i] = sum;
 		}
 	} // End outermost
