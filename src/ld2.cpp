@@ -40,11 +40,6 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 	int next_population[N];
 	float payoffs[N];
 	float full_sums[n_gen];
-
-	//cout << "P: " << payoff_matrix[0][0] << endl;
-	//cout << "T: " << payoff_matrix[0][1] << endl;
-	//cout << "S: " << payoff_matrix[1][0] << endl;
-	//cout << "R: " << payoff_matrix[1][1] << endl;
 	
 	for (int i = 0; i<N; i++) {
 		population[i] = i < N/2 ? 0 : 1;
@@ -65,8 +60,9 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 			payoffs[i] = 0;
 
 			len_neighbours = neighbours_sizes[j];
-			for (int k = 0; k<len_neighbours; k++) {
+			for (int k = j; k<len_neighbours; k++) {
 				payoffs[j] = payoffs[j] + payoff_matrix[population[j]][population[graph[j][k]]];
+				payoffs[graph[j][k]] = payoffs[graph[j][k]] + payoff_matrix[population[graph[j][k]]][population[j]];
 			}
 		}// End population
 
@@ -230,7 +226,14 @@ void progressBar(float progress) {
 
 int main(int argc, char** argv) {
 	int P = 0; int R = 1; 
-	int n_real = 10; int n_runs = 10;
+	int n_real; int n_runs;
+
+	if (argc > 4 && strcmp(argv[4],"complete") == 0) {
+		cout << "COMPLETE !!"<<endl;
+		n_real = 1; n_runs = 1;
+	} else {
+		n_real = 10; n_runs = 10;
+	}
 	int n_transient = stoi(argv[1]);
 	int n_gen = stoi(argv[2]);
 	int granularity = 64;

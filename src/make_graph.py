@@ -5,7 +5,7 @@ N = 1000
 z = 4
 n_realizations = 10
 
-graph = nx.barabasi_albert_graph(N,z)
+graph = nx.complete_graph(N)
 
 for i in range(n_realizations):
   with open("/Users/mos/Documents/ULB/MA3.tmp/INFO-F409/Exam/LDProject/graphs/py_graph_{}.txt".format(i),"w") as file:
