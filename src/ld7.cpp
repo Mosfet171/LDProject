@@ -85,7 +85,7 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 				int Dg = maxT - minS;
 				float prob = ((float)py-(float)px)/((float)kg*(float)Dg)*100;
 				int random = (rand())%100;
-				if (100*prob > random) {
+				if (prob > random) {
 					next_population[j] = population[random_neighbour_strat];
 				}
 			}
@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
 		float S = ((float)S_MAX-(float)S_MIN)/(float)granularity * (float)i + (float)S_MIN;
 		cout << "[Thread " << tid << "] ---------- S = " << S << " ---------- #" << endl;
 
-		string outname = "out" + to_string(stoi(argv[3])) + "/out_S_" + to_string(i) + ".txt";
+		string outname = "/Users/mos/Documents/ULB/MA3.tmp/INFO-F409/Exam/LDProject/out/out" + to_string(stoi(argv[3])) + "/out_S_" + to_string(i) + ".txt";
 		fstream outfile (outname, ios::app);
 		// Loop over T's
 		for (int j=0;j<granularity;j++) {

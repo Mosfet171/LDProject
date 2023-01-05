@@ -149,7 +149,7 @@ void retrieve_graph(int i, short int graph[N][N], short int neighbours_sizes[]) 
 }
 
 float exec_with_fixed_params(float P, float T, float S, float R, int n_real, int n_runs, int n_gen, int n_transient) {
-	float payoff_matrix[2][2] = {{P,T},{S,R}};
+	float payoff_matrix[2][2] = {{P,S},{T,R}};
 	float sums_real_av = 0;
 	float sums_av = 0;
 
