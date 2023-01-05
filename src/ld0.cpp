@@ -116,7 +116,7 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 }
 
 void retrieve_graph(int i, short int graph[N][N], short int neighbours_sizes[]) {
-	string fname = "py_graph_"+to_string(i)+".txt";
+	string fname = "/Users/mos/Documents/ULB/MA3.tmp/INFO-F409/Exam/LDProject/graphs/py_graph_"+to_string(i)+".txt";
 	fstream thefile (fname, ios::in);
 
 	vector<vector<string> > content;

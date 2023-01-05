@@ -8,7 +8,7 @@ n_realizations = 10
 graph = nx.barabasi_albert_graph(N,z)
 
 for i in range(n_realizations):
-  with open("py_graph_{}.txt".format(i),"w") as file:
+  with open("/Users/mos/Documents/ULB/MA3.tmp/INFO-F409/Exam/LDProject/graphs/py_graph_{}.txt".format(i),"w") as file:
     for key in graph:
       i = 0
       for el in graph[key]:
