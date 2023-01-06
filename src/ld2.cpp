@@ -33,7 +33,7 @@ int doIreplace(int px, int py, int kx, int ky, float T, float S) {
 	return(0);
 }
 
-float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[], int n_gen, float payoff_matrix[2][2], int transient) {
+float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[], int n_gen, float payoff_matrix[2][2], int transient, int complete) {
 	unsigned int seed = 0;
 	random_device rd;
 	int population[N];
@@ -59,10 +59,16 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 		for (int j = 0; j<N; j++) {
 			payoffs[i] = 0;
 
-			len_neighbours = neighbours_sizes[j];
-			for (int k = j; k<len_neighbours; k++) {
-				payoffs[j] = payoffs[j] + payoff_matrix[population[j]][population[graph[j][k]]];
-				payoffs[graph[j][k]] = payoffs[graph[j][k]] + payoff_matrix[population[graph[j][k]]][population[j]];
+			if (complete) {
+				for (int k = j; k<N; k++) {
+					payoffs[j] = payoffs[j] + payoff_matrix[population[j]][population[graph[j][k]]];
+					payoffs[graph[j][k]] = payoffs[graph[j][k]] + payoff_matrix[population[graph[j][k]]][population[j]];
+				}
+			} else {
+				len_neighbours = neighbours_sizes[j];
+				for (int k = 0; k<len_neighbours; k++) {
+					payoffs[j] = payoffs[j] + payoff_matrix[population[j]][population[graph[j][k]]];
+				}
 			}
 		}// End population
 
@@ -146,7 +152,7 @@ void retrieve_graph(int i, short int graph[N][N], short int neighbours_sizes[]) 
 	}
 }
 
-float exec_with_fixed_params(float P, float T, float S, float R, int n_real, int n_runs, int n_gen, int n_transient) {
+float exec_with_fixed_params(float P, float T, float S, float R, int n_real, int n_runs, int n_gen, int n_transient, int complete) {
 	float payoff_matrix[2][2] = {{P,T},{S,R}};
 
 	float sums_real_av = 0;
@@ -158,8 +164,8 @@ float exec_with_fixed_params(float P, float T, float S, float R, int n_real, int
 		retrieve_graph(i, graph, neighbours_sizes);
 
 		for (int j=0; j<n_runs; j++) {
-			run_execution_on_graph(graph, neighbours_sizes, n_transient, payoff_matrix, 1);
-			float av_sum = run_execution_on_graph(graph, neighbours_sizes, n_gen, payoff_matrix, 0);
+			run_execution_on_graph(graph, neighbours_sizes, n_transient, payoff_matrix, 1, complete);
+			float av_sum = run_execution_on_graph(graph, neighbours_sizes, n_gen, payoff_matrix, 0, complete);
 			sums_av = sums_av + av_sum;
 		}
 		sums_av = sums_av/n_runs;
@@ -227,12 +233,15 @@ void progressBar(float progress) {
 int main(int argc, char** argv) {
 	int P = 0; int R = 1; 
 	int n_real; int n_runs;
+	int complete;
 
 	if (argc > 4 && strcmp(argv[4],"complete") == 0) {
 		cout << "COMPLETE !!"<<endl;
 		n_real = 1; n_runs = 1;
+		complete = 1;
 	} else {
 		n_real = 10; n_runs = 10;
+		complete = 0;
 	}
 	int n_transient = stoi(argv[1]);
 	int n_gen = stoi(argv[2]);
@@ -259,7 +268,7 @@ int main(int argc, char** argv) {
 			float T = ((float)T_MAX-(float)T_MIN)/(float)granularity * (float)j + (float)T_MIN;
 			progressBar((float)j/(float)granularity);
 			//cout << "[Thread " << tid << "] ----- T = " << T << " ----- #" << endl;
-			float thesum = exec_with_fixed_params(P,T,S,R,n_real,n_runs,n_gen,n_transient);
+			float thesum = exec_with_fixed_params(P,T,S,R,n_real,n_runs,n_gen,n_transient,complete);
 			outfile << thesum << endl;
 		}
 	}	
