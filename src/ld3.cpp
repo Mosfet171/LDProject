@@ -57,7 +57,7 @@ float run_execution_on_graph(short int graph[N][N], short int neighbours_sizes[]
 		int len_neighbours; 
 		// Loop over population
 		for (int j = 0; j<N; j++) {
-			payoffs[i] = 0;
+			payoffs[j] = 0;
 
 			if (complete) {
 				for (int k = j; k<N; k++) {
